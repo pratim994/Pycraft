@@ -4,12 +4,12 @@ from meshes.base_mesh import BaseMesh
 
 
 class QuadMesh(BaseMesh):
-    def __innit__(self, app):
+    def __init__(self, app):
         super().__init__()
         self.app =  app
 
         self.ctx = self.app.ctx
-        self.program = self.app.shader_program.water
+        self.program = self.app.shader_program.quad
         self.vbo_format = '2u1 3u1'
         self.attrs =('in_tex_coord','in_position')
         self.vao = self.get_vao()
