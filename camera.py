@@ -26,6 +26,36 @@ class Camera:
         self.m_view = glm.lookAt(self.position, self.position+self.forward, self.up)
 
     def update_vectors(self):
-        self.forward.x = 
-        self.forward.y
-        self.forward.z
+        self.forward.x = glm.cos(self.yaw)*glm.cos(self.pitch)
+        self.forward.y = glm.sin(self.pitch)
+        self.forward.z = glm.sin(self.yaw)*glm.cos(self.pitch)
+
+
+        self.forward = glm.normalize(self.forward)
+        self.right = glm.normalize(glm.cross(self.forward, glm.vec3(0,1,0)))
+        self.up = glm.normalize(glm.cross(self.right, self.forward))
+
+    def rotate_pitch(self, delta_y):
+        self.pitch -= delta_y
+        self.pitch = glm.clamp(self.pitch, -PITCH_MAX, PITCH_MAX)
+
+    def rotate_yaw(self, delta_x):
+        self.yaw += delta_x
+
+
+    def rotate_right(self, velocity):
+        self.position += self.right*velocity
+    
+    def rotate_left(self, velocity):
+        self.position  -= self.left*velocity
+
+    def move_up(self, velocity):
+        self.position += self.up * velocity
+
+    def move_down(self, velocity):
+        self.position -= self.up * velocity
+    def move_forward(self, velocity):
+        self.position += self.forward * velocity
+
+    def move_back(self, velocity):   
+        self.position -= self.forward *velocity
