@@ -69,3 +69,61 @@ def pack_data(x,y,z, vowel_id, face_id, ao_id, flip_id):
     return packed_data
 
 @njit
+
+def get_chunk_index(world_voxel_pos):
+    wx , wy, wz = world_voxel_pos
+    cx = wx
+    cy = wy
+    cz = wz
+    if not (0<= cx < WORLD_W and 0 <= cy < WORLD_H  and 0 <= cz < WORLD_d):
+        return -1
+
+    index = cx + WORLD_W*cz + WORLD_AREA*cy
+    return index
+
+@njit
+def is_void(local_voxel_pos, world_voxel_pos,world_voxels):
+    chunk_index = get_chunk_index(world_voxel_pos)
+    if chunk_index == -1:
+        return False
+    chunk_voxels = world_voxels[chunk_index]
+
+    x,y,z = local_voxel_pos
+    voxel_index = x % CHUNK_SIZE + z %CHUNK_SIZE*CHUNK_SIZE + y % CHUNK_SIZE*CHUNK_AREA
+
+    if chunk_voxels[voxel_index]:
+        return False
+    return True
+
+@njit
+
+def add_data(vertext_data, index, *vertices):
+    for vertex in vertices:
+        vertex_data[index] =  vertex
+        index += 1
+    return index
+
+@njit
+
+def build_chunk_mesh(chunk_voxels, format_size, chunk_pos, world_voxels):
+    vertext_data = np.empty(CHUNK*18*format_size, dtype='uint32')
+    index = 0
+
+    for x in range(CHUNK_SIZE):
+        for y in range(CHUNK_SIZE):
+            for z in range(CHUNK_SIZE):
+                voxel_id = chunk_voxels[x+ CHUNK_SIZE*z + CHUNK_AREA*y]
+
+
+                if not voxel_id:
+                    continue
+
+                cx,cy cz = chunk_pos
+                wx = x +cx*CHUNK_SIZE
+                wy = y + cy*CHUNK_SIZE
+                wz = z + cz*CHUNK_SIZE
+
+                if is_void()
+
+
+
