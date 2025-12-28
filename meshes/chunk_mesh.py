@@ -27,3 +27,4 @@ class ChunkMesh(BaseMesh):
 
         )
         return mesh
+        
