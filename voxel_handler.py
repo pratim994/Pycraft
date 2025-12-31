@@ -106,5 +106,38 @@ class VoxelHandler:
                 else:
                     self.voxel_normal.z = -dz
                 return True
+   if max_x < max_y:
+                if max_x < max_z:
+                    current_voxel_pos.x += dx
+                    max_x += delta_x
+                    step_dir = 0
+                else:
+                    current_voxel_pos.z += dz
+                    max_z += delta_z
+                    step_dir = 2
+            else:
+                if max_y < max_z:
+                    current_voxel_pos.y += dy
+                    max_y += delta_y
+                    step_dir = 1
+                else:
+                    current_voxel_pos.z += dz
+                    max_z += delta_z
+                    step_dir = 2
+        return False
 
+    def get_voxel_id(self, voxel_world_pos):
+        cx, cy, cz = chunk_pos = voxel_world_pos / CHUNK_SIZE
+
+        if 0 <= cx < WORLD_W and 0 <= cy < WORLD_H and 0 <= cz < WORLD_D:
+            chunk_index = cx + WORLD_W * cz + WORLD_AREA * cy
+            chunk = self.chunks[chunk_index]
+
+            lx, ly, lz = voxel_local_pos = voxel_world_pos - chunk_pos * CHUNK_SIZE
+
+            voxel_index = lx + CHUNK_SIZE * lz + CHUNK_AREA * ly
+            voxel_id = chunk.voxels[voxel_index]
+
+            return voxel_id, voxel_index, voxel_local_pos, chunk
+        return 0, 0, 0, 0
 
