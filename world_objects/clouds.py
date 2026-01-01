@@ -1,7 +1,7 @@
 from settings import *
 from meshes.cloud_mesh import CloudMesh
 
-class Cloud:
+class Clouds:
     def __init__(self, app):
         self.app = app
         self.mesh = CloudMesh(app)

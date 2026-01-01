@@ -1,4 +1,4 @@
-im 
+
 from noise import noise2, noise3
 from random import random
 from settings import *

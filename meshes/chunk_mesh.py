@@ -1,8 +1,9 @@
 from meshes.base_mesh import BaseMesh
 from meshes.chunk_mesh_builder import build_chunk_mesh
 
+
 class ChunkMesh(BaseMesh):
-    def __init__(self,chunk):
+    def __init__(self, chunk):
         super().__init__()
         self.app = chunk.app
         self.chunk = chunk
@@ -14,17 +15,14 @@ class ChunkMesh(BaseMesh):
         self.attrs = ('packed_data',)
         self.vao = self.get_vao()
 
-
     def rebuild(self):
         self.vao = self.get_vao()
 
     def get_vertex_data(self):
         mesh = build_chunk_mesh(
-            chunk_voxels =  self.chunk.voxels,
-            format_size = self.format_size,
-            chunk_pos = self.chunk.position,
-            world_voxels =  elf.chunk.world.voxels
-
+            chunk_voxels=self.chunk.voxels,
+            format_size=self.format_size,
+            chunk_pos=self.chunk.position,
+            world_voxels=self.chunk.world.voxels
         )
         return mesh
-        

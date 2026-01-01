@@ -2,6 +2,7 @@ from settings import *
 from meshes.base_mesh import BaseMesh
 from noise import *
 
+
 class CloudMesh(BaseMesh):
     def __init__(self, app):
         super().__init__()
@@ -47,12 +48,14 @@ class CloudMesh(BaseMesh):
                 if not cloud_data[idx] or idx in visited:
                     continue
 
+                # find number of continuous quads along x
                 x_count = 1
                 idx = (x + x_count) + width * z
                 while x + x_count < width and cloud_data[idx] and idx not in visited:
                     x_count += 1
                     idx = (x + x_count) + width * z
 
+                # find the number of continuous quads along z for each x
                 z_count_list = []
                 for ix in range(x_count):
                     z_count = 1
@@ -62,8 +65,10 @@ class CloudMesh(BaseMesh):
                         idx = (x + ix) + width * (z + z_count)
                     z_count_list.append(z_count)
 
+                # find min count z to form a large quad
                 z_count = min(z_count_list) if z_count_list else 1
 
+                # mark all unit quads of the large quad as visited
                 for ix in range(x_count):
                     for iz in range(z_count):
                         visited.add((x + ix) + width * (z + iz))
