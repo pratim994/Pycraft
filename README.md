@@ -9,6 +9,8 @@ Pycraft is a lightweight Python game engine designed for experimenting with 3D r
 
 ---
 
+<video src="input.mp4" controls width="600"></video>
+
 ## 🚀 Features
 
 * 3D rendering pipeline
